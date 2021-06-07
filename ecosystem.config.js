@@ -7,8 +7,7 @@ module.exports = {
         PORT: 8080,
         NODE_ENV: 'staging',
         MONGODB_URL:
-          'mongodb+srv://dbUser:pourboir@123@cluster0.ugghn.mongodb.net/pourboir-v1-qa?retryWrites=true&w=majority',
-        GOOGLE_API_KEY: 'AIzaSyCyzRS-qqJSeMlAdna0z_5a_gPxnBbqK6I',
+          'mongodb+srv://quickrating:@DeveloperQuickRating@cluster0.be1wm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
         CACHE_TIME: 120,
         CAN_VOTE_ALWAYS: false,
         PICTURES: true,
@@ -23,9 +22,9 @@ module.exports = {
         PORT: 5000,
         NODE_ENV: 'production',
         MONGODB_URL:
-          'mongodb+srv://dbUser:pourboir@123@cluster0.ugghn.mongodb.net/pourboir-v1-production?retryWrites=true&w=majority',
+          'mongodb+srv://quickrating:@DeveloperQuickRating@cluster0.be1wm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
         EMAIL_TO: 'contact@pourboir.com',
-        GOOGLE_API_KEY: 'AIzaSyDHVUwmNlKIiTNhnOi8xzM_vnsilLrJhkA',
+        GOOGLE_API_KEY: 'AIzaSyBAPptEr4vCABmo5yyiEeoF2cT8mx5Wimc',
         CACHE_TIME: 60,
         CAN_VOTE_ALWAYS: false,
         PICTURES: true,
