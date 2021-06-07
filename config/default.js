@@ -33,13 +33,13 @@ module.exports = {
   //   bucketName: 'pourboir',
   // },
 
-  // sendGrid: {
-  //   apiKey: fromEnv(
-  //     'SEND_GRID_API_KEY',
-  //     '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',
-  //   ),
-  //   liveMode: false,
-  // },
+  sendGrid: {
+    apiKey: fromEnv(
+      'SEND_GRID_API_KEY',
+      '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',
+    ),
+    liveMode: false,
+  },
   // stripe: {
   //   publishableKey: fromEnv(
   //     'STRIPE_PUBLISHABLE_KEY',
