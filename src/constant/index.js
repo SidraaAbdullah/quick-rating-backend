@@ -8,7 +8,7 @@ module.exports = {
   CONTENT_TYPE_APPLICATION_JSON: 'application/json',
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY || 'AIzaSyBAPptEr4vCABmo5yyiEeoF2cT8mx5Wimc',
   EMAIL_TO: process.env.EMAIL_TO || 'salmansidd991@gmail.com',
-  EMAIL_FROM: 'rizvisarmed@gmail.com',
+  EMAIL_FROM: 'developers.quickrating@gmail.com',
   CACHE_TIME: process.env.CACHE_TIME || 3600 * 3,
   WAITER_STATUSES: ['archive', 'active', 'pending', 'reject'],
   WAITER_PENDING: 'pending',

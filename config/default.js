@@ -27,11 +27,11 @@ module.exports = {
       'mongodb+srv://quickrating:@DeveloperQuickRating@cluster0.be1wm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     ),
   },
-  // aws: {
-  //   accessKeyId: 'AKIAXBF5SHG2GIK7FFWS',
-  //   secretAccessKey: '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',
-  //   bucketName: 'pourboir',
-  // },
+  aws: {
+    accessKeyId: 'AKIA2PRS6GBGMJ6ASZ5Q',
+    secretAccessKey: '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',
+    bucketName: 'quickrating',
+  },
 
   sendGrid: {
     apiKey: fromEnv(
@@ -50,7 +50,7 @@ module.exports = {
   //     'sk_test_51ISM24C8eu0AeiYvKe1svKAj0SZ21kuJHG3wYey1sOgcWfEQdLXG04qQRdz1FGJZUYX4Ru6Tp569LCz95UvSChVo00PywNBxHJ',
   //   ),
   // },
-  secret: 'supersecret',
+  secret: 'quickrating_supersecret',
 };
 
 // In production environments, read from the environment. Otherwise, use a
