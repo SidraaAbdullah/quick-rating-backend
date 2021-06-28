@@ -40,16 +40,10 @@ module.exports = {
     ),
     liveMode: false,
   },
-  // stripe: {
-  //   publishableKey: fromEnv(
-  //     'STRIPE_PUBLISHABLE_KEY',
-  //     'pk_test_51ISM24C8eu0AeiYv0qduvQv1yO0uhVzv63agyGWH9I6fmWvZTVapZ8XwBbhDJeRhD6H7G9P1S5n2jQPkGxv9TtJH00sKhvyKC6',
-  //   ),
-  //   secretKey: fromEnv(
-  //     'STRIPE_SECRET_KEY',
-  //     'sk_test_51ISM24C8eu0AeiYvKe1svKAj0SZ21kuJHG3wYey1sOgcWfEQdLXG04qQRdz1FGJZUYX4Ru6Tp569LCz95UvSChVo00PywNBxHJ',
-  //   ),
-  // },
+  stripe: {
+    publishableKey: fromEnv('STRIPE_PUBLISHABLE_KEY', 'pk_test_'),
+    secretKey: fromEnv('STRIPE_SECRET_KEY', 'sk_test_'),
+  },
   secret: 'quickrating_supersecret',
 };
 
