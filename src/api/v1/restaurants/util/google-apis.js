@@ -110,6 +110,7 @@ const getRestaurantsData = async ({ location, language, pagetoken, search }) => 
     logger.info(`successfully get restaurants`);
     return data;
   } catch (error) {
+    console.log(error);
     logger.error(JSON.stringify(error));
     return {};
   }

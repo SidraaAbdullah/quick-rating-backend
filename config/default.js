@@ -24,7 +24,7 @@ module.exports = {
   datasource: {
     databaseUrl: fromEnv(
       'MONGODB_URL',
-      'mongodb+srv://quickrating:@DeveloperQuickRating@cluster0.be1wm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+      'mongodb+srv://quickrating:@DeveloperQuickRating@cluster0.be1wm.mongodb.net/quickrating?retryWrites=true&w=majority',
     ),
   },
   aws: {
