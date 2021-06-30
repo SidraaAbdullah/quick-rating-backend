@@ -2,19 +2,17 @@ const axios = require('axios');
 const appRoot = require('app-root-path');
 const logger = require(appRoot + '/src/logger').apiLogger;
 const constants = require(appRoot + '/src/constant');
-const waiter = require(appRoot + '/src/model/waiter.js');
 const restaurantUtil = require('./restaurants.util');
-const _get = require('lodash/get');
 const { restaurantPhotosParams, uploadFile } = require('./restaurant-image-s3');
 const RestaurantPhotos = require(appRoot + '/src/model/restaurant-photos');
 const Util = require(appRoot + '/src/util');
-const Waiter = require(appRoot + '/src/model/waiter');
 
 exports.getRestaurantByGoogleApi = async ({
   location = { lat: '24.9408855', log: '67.0644976' },
   language = 'fr',
   next_page_token,
   search,
+  category,
 }) => {
   try {
     let places = {},
@@ -24,6 +22,7 @@ exports.getRestaurantByGoogleApi = async ({
         location,
         language,
         pagetoken: next_page_token,
+        category,
       });
     } else {
       data = await getRestaurantsData({
@@ -31,6 +30,7 @@ exports.getRestaurantByGoogleApi = async ({
         language,
         search,
         pagetoken: next_page_token,
+        category,
       });
     }
     logger.info(`Restaurant Data: ${JSON.stringify(data)}`);
@@ -43,7 +43,7 @@ exports.getRestaurantByGoogleApi = async ({
         distance = '',
         servers,
       } = await restaurantUtil.modifyRestaurantDetails(place, location);
-      // const restaurant = await restaurantUtil.getRestaurantByPlaceId(
+      // const place = await restaurantUtil.getRestaurantByPlaceId(
       //   place.place_id,
       // );
       let { our_rating } = await restaurantUtil.updateAndGetRestaurantRating(place);
@@ -54,9 +54,9 @@ exports.getRestaurantByGoogleApi = async ({
           distance,
           photos: photoReferences,
           servers,
-          // menu_url: _get(restaurant, 'menu_url', ''),
+          // menu_url: _get(place, 'menu_url', ''),
           our_rating: our_rating || 0,
-          // restaurant_id: _get(restaurant, '_id', ''),
+          // restaurant_id: _get(place, '_id', ''),
         },
         ...(places.results || []),
       ];
@@ -73,9 +73,7 @@ exports.getRestaurantByGoogleApi = async ({
 exports.getDistanceFromLatLonInKm = async (lat1, lon1, place_id) => {
   try {
     logger.info(
-      `Calculating distance between current location:${
-        (lat1, lon1)
-      } and restaurant id:${place_id}!`,
+      `Calculating distance between current location:${(lat1, lon1)} and place id:${place_id}!`,
     );
     const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat1},${lon1}&destinations=place_id:${place_id}&key=${constants.GOOGLE_API_KEY}`,
@@ -89,7 +87,7 @@ exports.getDistanceFromLatLonInKm = async (lat1, lon1, place_id) => {
   }
 };
 
-const getRestaurantsData = async ({ location, language, pagetoken, search }) => {
+const getRestaurantsData = async ({ location, language, pagetoken, search, category }) => {
   try {
     const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?radius=${
@@ -97,12 +95,12 @@ const getRestaurantsData = async ({ location, language, pagetoken, search }) => 
       }`,
       {
         params: {
-          type: 'restaurant',
+          type: category || 'restaurant',
           key: constants.GOOGLE_API_KEY,
           location: `${location.lat},${location.log}`,
           language,
           ...(pagetoken && { pagetoken }),
-          // opennow: true,
+          opennow: true,
           keyword: search,
         },
       },
@@ -160,13 +158,13 @@ exports.photoRefToPictures = async (photos, place_id) => {
     const restaurant_images = await RestaurantPhotos.findOne({ place_id });
     if (restaurant_images) {
       logger.info(
-        `restaurant photos found in db of place_id:${place_id}, photos:${JSON.stringify(
+        `place photos found in db of place_id:${place_id}, photos:${JSON.stringify(
           restaurant_images.photos,
         )}`,
       );
       return restaurant_images.photos;
     }
-    logger.info(`restaurant photos not found in db of place_id:${place_id}`);
+    logger.info(`place photos not found in db of place_id:${place_id}`);
     const photoReferences = photos.map(
       (photo) =>
         `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${400}&key=${
@@ -185,7 +183,7 @@ exports.photoRefToPictures = async (photos, place_id) => {
       place_id,
       photos: urls,
     });
-    logger.info(`restaurant photos created and stored in db`);
+    logger.info(`place photos created and stored in db`);
     return urls;
   } catch (error) {
     logger.error(error);

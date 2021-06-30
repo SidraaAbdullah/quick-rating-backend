@@ -5,6 +5,7 @@ exports.validateGetRestaurantsData = Joi.object({
   language: Joi.number().optional(),
   pagetoken: Joi.string().optional(),
   search: Joi.string().optional().allow(''),
+  category: Joi.string().optional().allow(''),
 });
 
 exports.validateGetWaiterRestaurantsData = Joi.object({

@@ -20,14 +20,14 @@ exports.getRestaurants = async (req, res) => {
         error: error.details,
       });
     }
-
     logger.info('All validations passed');
-    const { location, language = '', pagetoken, search = '' } = req.query;
+    const { location, language = '', pagetoken, search = '', category } = req.query;
     let restaurants = await googleApis.getRestaurantByGoogleApi({
       ...(location && { location: JSON.parse(location) }),
       language,
       pagetoken,
       search,
+      category,
     });
     res.status(200).json({
       message: 'Restaurants data has been found successfully.',
