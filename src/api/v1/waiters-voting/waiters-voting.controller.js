@@ -35,7 +35,7 @@ exports.addRestaurantWaiterRating = async (req, res) => {
       await emailUtil.send({
         to: userDetails.email,
         from: constant.EMAIL_FROM,
-        name: 'Pourboir',
+        name: 'Quick Rating',
         templateId: isFrench(userDetails.lang)
           ? constant.TEMPLATE_USER_TIP_FRA
           : constant.TEMPLATE_USER_TIP,

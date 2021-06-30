@@ -5,8 +5,7 @@ const Waiter = require(appRoot + '/src/model/waiter');
 const WaiterVoting = require(appRoot + '/src/model/waiter-voting');
 const waitersUtil = require('./util/waiters.util');
 const emailUtil = require(appRoot + '/src/util/email-util/send-email.js');
-const templateEmailUtil = require(appRoot +
-  '/src/util/email-util/email-template.js');
+const templateEmailUtil = require(appRoot + '/src/util/email-util/email-template.js');
 const constant = require(appRoot + '/src/constant');
 const Restaurant = require(appRoot + '/src/model/waiter-restaurant');
 const UserUtil = require(appRoot + '/src/api/v1/user/util/user.util');
@@ -77,7 +76,7 @@ exports.addRestaurantWaiters = async (req, res) => {
       business_registration_number,
       manager_name,
       manager_contact,
-      email
+      email,
     } = req.body;
     logger.info(`creating Waiter of restaurant: ${JSON.stringify(restaurant)}`);
     const userDetails = {
@@ -86,44 +85,36 @@ exports.addRestaurantWaiters = async (req, res) => {
       manager_name,
       manager_contact,
       full_name,
-      email
+      email,
     };
     const waiterRestaurant = await UserUtil.addWaiterAndRestaurant({
       created_by,
       restaurant,
       ...userDetails,
     });
-    logger.info(`Waiter created of restaurant, now sending email to Pourboir Company`);
-    const template = await templateEmailUtil.emailTemplate(
-      restaurant,
-      userDetails,
-    );
+    logger.info(`Waiter created of restaurant, now sending email to Quick Rating Company`);
+    const template = await templateEmailUtil.emailTemplate(restaurant, userDetails);
     await emailUtil.send({
       to: constant.EMAIL_TO,
       from: constant.EMAIL_FROM,
-      name: 'Pourboir',
+      name: 'Quick Rating',
       subject: `Waiter: ${full_name}`,
       html: template,
     });
-    logger.info(`email successfully sent to Pourboir Company`);
+    logger.info(`email successfully sent to Quick Rating Company`);
     if (email) {
       logger.info(`[starting] sending email to user email ${email}`);
-      const template = await templateEmailUtil.waiterAddEmailTemplate(
-        restaurant,
-        userDetails,
-      );
+      const template = await templateEmailUtil.waiterAddEmailTemplate(restaurant, userDetails);
       await emailUtil.send({
         to: email,
         from: constant.EMAIL_FROM,
-        name: 'Pourboir',
-        subject: `Welcome to Pourboir!`,
+        name: 'Quick Rating',
+        subject: `Welcome to Quick Rating!`,
         html: template,
       });
       logger.info(`[ending] sending email to user email ${email}`);
     }
-    await logger.info(
-      `successfully created Waiter of restaurant: ${restaurant.place_id}`,
-    );
+    await logger.info(`successfully created Waiter of restaurant: ${restaurant.place_id}`);
     return res.status(200).json({
       message: 'Waiter is successfully created',
       data: waiterRestaurant,
@@ -154,7 +145,7 @@ exports.deleteRestaurantWaiter = async (req, res) => {
         error: error.details,
       });
     }
-    const { user_id = "" } = req.body;
+    const { user_id = '' } = req.body;
     logger.info(`finding waiter against id:${id} and user Id:${user_id}`);
     const waiterUpdated = await waiterUpdate.waiterDeleteAndUpdate(id, user_id);
     if (waiterUpdated.isDeleted) {
@@ -226,17 +217,16 @@ exports.deleteBulkRestaurantWaiter = async (req, res) => {
       });
     }
     for (const waiterDetail of req.body.waiter_ids) {
-      await waiterUpdate.waiterDeleteAndUpdate(waiterDetail.waiter_id, waiterDetail.user_id)
+      await waiterUpdate.waiterDeleteAndUpdate(waiterDetail.waiter_id, waiterDetail.user_id);
     }
     return res.status(200).json({
       message: 'Successfully bulk deleted waiters',
     });
-  }
-  catch (error) {
+  } catch (error) {
     logger.error(JSON.stringify((error = error.stack)));
     return res.status(500).json({
       message: 'Internal Server Error. Please try again later.',
       error: error,
     });
   }
-}
+};

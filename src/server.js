@@ -26,19 +26,17 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    console.log('Database Connected to Pourboir App');
-    rootLogger.info('Database Connected to Pourboir App');
+    console.log('Database Connected to Quick Rating App');
+    rootLogger.info('Database Connected to Quick Rating App');
   })
   .catch((err) => console.log('connection error occurred:', err));
 
 app.use('/api', Api);
 
-const server = http
-  .createServer(app)
-  .listen(process.env.PORT || 8081, function () {
-    console.log('Http server listening on port', process.env.PORT || 8081);
-    rootLogger.info('Http server listening on port', process.env.PORT || 8081);
-  });
+const server = http.createServer(app).listen(process.env.PORT || 8081, function () {
+  console.log('Http server listening on port', process.env.PORT || 8081);
+  rootLogger.info('Http server listening on port', process.env.PORT || 8081);
+});
 app.use('/status', async (req, res) => {
   try {
     return res.status(200).json({

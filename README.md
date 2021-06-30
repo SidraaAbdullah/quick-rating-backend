@@ -1,6 +1,6 @@
-# Pourboir Backend Server
+# Quick Rating Backend Server
 # Project Title
- The app allows anyone to rate waiters after visiting a restaurant
+ The app allows anyone to rate staff after visiting a place
 
 # Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development purposes. See deployment for notes on how to deploy the project on a live system.
@@ -23,7 +23,7 @@ A step by step series of examples that tell you how to get a development env run
 > npm run dev
 
 ```
-* Your Server will run at  `localhost:8080`
+* Your Server will run at  `localhost:8081`
 
 # Built With
 * Node (Express)- Server
@@ -32,3 +32,5 @@ A step by step series of examples that tell you how to get a development env run
 ### Authors
 * Sarmed Rizvi - Project Manager and Developer
 * Salman Siddiqui - Senior Full Stack Developer
+* Sidra Abdullah - React Native Developer
+* Khaismah Khan - React developer

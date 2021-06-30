@@ -73,7 +73,7 @@ exports.createWaiterJobForm = async (req, res) => {
     await emailUtil.send({
       to: user.email,
       from: constant.EMAIL_FROM,
-      name: 'Pourboir',
+      name: 'Quick Rating',
       templateId: isFrench(user.lang)
         ? constant.TEMPLATE_WAITER_JOB_FORM_FILLED_FRA
         : constant.TEMPLATE_WAITER_JOB_FORM_FILLED,

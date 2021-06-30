@@ -130,7 +130,7 @@ exports.notifyWaiterAboutApproval = async (waiter) => {
     await emailUtil.send({
       to: user.email,
       from: constant.EMAIL_FROM,
-      name: 'Pourboir',
+      name: 'Quick Rating',
       templateId: isFrench(user.lang)
         ? constant.TEMPLATE_WAITER_APPROVAL_FRA
         : constant.TEMPLATE_WAITER_APPROVAL,
@@ -165,7 +165,7 @@ exports.createMessages = async (body, data, pushTokens) => {
     messages.push({
       to: pushToken,
       sound: 'default',
-      title: 'Pourboir',
+      title: 'Quick Rating',
       body,
       data,
     });
@@ -194,7 +194,7 @@ exports.notifyWaiterAboutRejection = async (waiter) => {
     await emailUtil.send({
       to: user.email,
       from: constant.EMAIL_FROM,
-      name: 'Pourboir',
+      name: 'Quick Rating',
       templateId: isFrench(user.lang)
         ? constant.TEMPLATE_WAITER_REJECTED_FRA
         : constant.TEMPLATE_WAITER_REJECTED,
