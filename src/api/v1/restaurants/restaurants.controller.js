@@ -217,11 +217,11 @@ exports.getRestaurantDetails = async (req, res) => {
     }
     let details = await googleApis.getPlace(id);
     const restaurant = await restaurantUtil.getRestaurantByPlaceId(id);
-    let { our_rating } = await restaurantUtil.updateAndGetRestaurantRating(id);
+    // let { our_rating } = await restaurantUtil.updateAndGetRestaurantRating(id);
     details = {
       ...details,
       ...(restaurant?._doc || {}),
-      our_rating,
+      // our_rating,
     };
     res.status(200).json({
       message: 'Restaurants details has been found successfully.',

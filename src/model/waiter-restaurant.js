@@ -51,6 +51,16 @@ const restaurantSchema = new schema({
   international_phone_number: {
     type: String,
   },
+  reviews: [
+    new schema({
+      author_name: { type: String },
+      author_url: { type: String },
+      profile_photo_url: { type: String },
+      rating: { type: String },
+      text: { type: String },
+      time: { type: Number },
+    }),
+  ],
 });
 restaurantSchema.set('timestamps', true);
 module.exports = mongoose.model('waiter-restaurants', restaurantSchema);

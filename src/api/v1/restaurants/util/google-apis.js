@@ -117,7 +117,7 @@ const getRestaurantsData = async ({ location, language, pagetoken, search, categ
 exports.getPlace = async (place_id) => {
   try {
     const { data } = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/details/json?fields=international_phone_number`,
+      `https://maps.googleapis.com/maps/api/place/details/json?fields=international_phone_number,reviews`,
       {
         params: {
           place_id,
