@@ -215,7 +215,8 @@ exports.getRestaurantDetails = async (req, res) => {
         error: error.details,
       });
     }
-    let details = await googleApis.getPlace(id);
+    // let details = await googleApis.getPlace(id);
+    let details = {};
     const restaurant = await restaurantUtil.getRestaurantByPlaceId(id);
     // let { our_rating } = await restaurantUtil.updateAndGetRestaurantRating(id);
     details = {

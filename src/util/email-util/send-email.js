@@ -27,7 +27,7 @@ module.exports = {
         dynamic_template_data: params.placeholders,
       };
       logger.info(`calling SendGrid API to send email to ${emailTo} From ${emailFrom}`);
-      await sgMail.send(msg);
+      // await sgMail.send(msg);
       logger.info(` email sent successfully to: ${emailTo} From: ${emailFrom}`);
       return true;
     } catch (error) {
