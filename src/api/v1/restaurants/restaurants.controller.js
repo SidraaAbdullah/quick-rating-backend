@@ -5,6 +5,7 @@ const restaurantsValidation = require('./restaurants.validation');
 const googleApis = require('./util/google-apis');
 const restaurantUtil = require('./util/restaurants.util');
 const Restaurant = require(appRoot + '/src/model/waiter-restaurant');
+const PlaceReview = require(appRoot + '/src/model/place-review');
 const Util = require(appRoot + '/src/util');
 
 exports.getRestaurants = async (req, res) => {
@@ -227,6 +228,38 @@ exports.getRestaurantDetails = async (req, res) => {
     res.status(200).json({
       message: 'Restaurants details has been found successfully.',
       data: details,
+    });
+  } catch (error) {
+    logger.error(JSON.stringify((error = error.stack)));
+    return res.status(500).json({
+      message: 'Internal Server Error. Please try again later.',
+      error: error,
+    });
+  }
+};
+
+exports.createRestaurantReview = async (req, res) => {
+  try {
+    logger.info('In Restaurant API - Validating [createRestaurantReview] restaurants');
+    const { error } = restaurantsValidation.validateCreateRestaurantReview.validate(
+      { ...req.body },
+      {
+        abortEarly: false,
+      },
+    );
+    if (error) {
+      logger.info(`Validation error ${JSON.stringify(error.details)}`);
+      return res.status(400).json({
+        message: 'Invalid Request. Please check and try again.',
+        error: error.details,
+      });
+    }
+    const { place, ...body } = req.body;
+    const place_id = await restaurantUtil.getPlaceId(place);
+    const review = await PlaceReview.create({ ...body, place_id });
+    res.status(200).json({
+      message: 'Restaurants review has been submitted!',
+      data: review,
     });
   } catch (error) {
     logger.error(JSON.stringify((error = error.stack)));

@@ -10,11 +10,7 @@ const limiter = rateLimit({
   max: 15, // limit each IP to  requests per windowMs
 });
 
-router.get(
-  '/',
-  [cacheMiddleWare.cache(constants.CACHE_TIME)],
-  restaurantController.getRestaurants,
-);
+router.get('/', [cacheMiddleWare.cache(constants.CACHE_TIME)], restaurantController.getRestaurants);
 
 router.get(
   '/detail/:id',
@@ -28,5 +24,6 @@ router.patch('/:id', restaurantController.updateRestaurant);
 router.get('/search/:id', restaurantController.searchRestaurants);
 
 router.get('/:id', restaurantController.getWaiterRestaurants);
+router.post('/review', restaurantController.createRestaurantReview);
 
 module.exports = router;

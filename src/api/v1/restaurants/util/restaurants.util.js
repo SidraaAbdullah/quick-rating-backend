@@ -295,3 +295,18 @@ exports.updateAndGetRestaurantRating = async (place) => {
     return null;
   }
 };
+
+exports.getPlaceId = async (place) => {
+  try {
+    const { place_id } = place;
+    let res = await Restaurant.findOne({ place_id });
+    if (!res) {
+      res = await Restaurant.create(place);
+    }
+    return res._id;
+  } catch (error) {
+    logger.error(JSON.stringify(error));
+    console.log(error);
+    return null;
+  }
+};
