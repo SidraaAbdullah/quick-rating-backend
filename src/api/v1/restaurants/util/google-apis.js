@@ -191,3 +191,21 @@ exports.photoRefToPictures = async (photos, place_id) => {
     return null;
   }
 };
+exports.getReviews = async (place_id) => {
+  try {
+    const { data } = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/details/json?fields=reviews`,
+      {
+        params: {
+          place_id,
+          key: constants.GOOGLE_API_KEY,
+        },
+      },
+    );
+    return data.result;
+  } catch (error) {
+    logger.error(error);
+    console.log(error);
+    return null;
+  }
+};

@@ -310,3 +310,21 @@ exports.getPlaceId = async (place) => {
     return null;
   }
 };
+
+exports.reviewsBuildQuery = async (query) => {
+  try {
+    logger.info(`Building useable query for restaurant with: ${query}`);
+    let params = {};
+    if (query.google_place_id) {
+      params = {
+        ...params,
+        google_place_id: query.google_place_id,
+      };
+    }
+    return params;
+  } catch (error) {
+    logger.error(JSON.stringify(error));
+    console.log(error);
+    return null;
+  }
+};

@@ -23,7 +23,8 @@ router.patch('/:id', restaurantController.updateRestaurant);
 
 router.get('/search/:id', restaurantController.searchRestaurants);
 
+router.get('/review', restaurantController.getPlaceReview);
 router.get('/:id', restaurantController.getWaiterRestaurants);
-router.post('/review', restaurantController.createRestaurantReview);
+router.post('/review', restaurantController.createPlaceReview);
 
 module.exports = router;

@@ -60,3 +60,7 @@ exports.validateCreateRestaurantReview = Joi.object({
     international_phone_number: Joi.string().optional().allow(''),
   }).required(),
 });
+
+exports.validateGetRestaurantReview = Joi.object({
+  google_place_id: Joi.string().required(),
+});

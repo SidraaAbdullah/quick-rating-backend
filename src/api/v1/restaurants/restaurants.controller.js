@@ -7,6 +7,8 @@ const restaurantUtil = require('./util/restaurants.util');
 const Restaurant = require(appRoot + '/src/model/waiter-restaurant');
 const PlaceReview = require(appRoot + '/src/model/place-review');
 const Util = require(appRoot + '/src/util');
+const pagination = require(appRoot + '/src/util/pagination');
+const moment = require('moment');
 
 exports.getRestaurants = async (req, res) => {
   try {
@@ -238,7 +240,7 @@ exports.getRestaurantDetails = async (req, res) => {
   }
 };
 
-exports.createRestaurantReview = async (req, res) => {
+exports.createPlaceReview = async (req, res) => {
   try {
     logger.info('In Restaurant API - Validating [createRestaurantReview] restaurants');
     const { error } = restaurantsValidation.validateCreateRestaurantReview.validate(
@@ -260,6 +262,44 @@ exports.createRestaurantReview = async (req, res) => {
     res.status(200).json({
       message: 'Restaurants review has been submitted!',
       data: review,
+    });
+  } catch (error) {
+    logger.error(JSON.stringify((error = error.stack)));
+    return res.status(500).json({
+      message: 'Internal Server Error. Please try again later.',
+      error: error,
+    });
+  }
+};
+
+exports.getPlaceReview = async (req, res) => {
+  try {
+    logger.info('In Place API - Validating [getPlaceReview] restaurants');
+    const { error } = restaurantsValidation.validateGetRestaurantReview.validate(req.query, {
+      abortEarly: false,
+    });
+    if (error) {
+      logger.info(`Validation error ${JSON.stringify(error.details)}`);
+      return res.status(400).json({
+        message: 'Invalid Request. Please check and try again.',
+        error: error.details,
+      });
+    }
+    const query = await restaurantUtil.reviewsBuildQuery(req.query);
+    const { data: ourReviews } = await pagination.paginateData(PlaceReview, query, req.query);
+    let googleReviews = await googleApis.getReviews(req.query.google_place_id);
+    googleReviews = googleReviews.reviews.map((item) => ({
+      ...item,
+      isGoogle: true,
+      createdAt: moment.unix(item.time),
+      comment: item.text,
+    }));
+    let reviews = [...googleReviews, ...ourReviews];
+    reviews = reviews.sort((a, b) => b.createdAt - a.createdAt);
+    res.status(200).json({
+      message: 'Place review!',
+      data: reviews,
+      count: reviews.length,
     });
   } catch (error) {
     logger.error(JSON.stringify((error = error.stack)));
