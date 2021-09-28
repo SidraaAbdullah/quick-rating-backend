@@ -62,5 +62,7 @@ exports.validateCreateRestaurantReview = Joi.object({
 });
 
 exports.validateGetRestaurantReview = Joi.object({
+  user_id: Joi.string().optional(),
+  language: Joi.string().required(),
   google_place_id: Joi.string().required(),
 });

@@ -9,6 +9,7 @@ const PlaceReview = require(appRoot + '/src/model/place-review');
 const Util = require(appRoot + '/src/util');
 const pagination = require(appRoot + '/src/util/pagination');
 const moment = require('moment');
+const { get } = require('lodash');
 
 exports.getRestaurants = async (req, res) => {
   try {
@@ -274,7 +275,7 @@ exports.createPlaceReview = async (req, res) => {
 
 exports.getPlaceReview = async (req, res) => {
   try {
-    logger.info('In Place API - Validating [getPlaceReview] restaurants');
+    logger.info('In Restaurant API - Validating [getRestaurantReview] restaurants');
     const { error } = restaurantsValidation.validateGetRestaurantReview.validate(req.query, {
       abortEarly: false,
     });
@@ -285,10 +286,11 @@ exports.getPlaceReview = async (req, res) => {
         error: error.details,
       });
     }
+    const { language: lang } = req.query;
     const query = await restaurantUtil.reviewsBuildQuery(req.query);
     const { data: ourReviews } = await pagination.paginateData(PlaceReview, query, req.query);
-    let googleReviews = await googleApis.getReviews(req.query.google_place_id);
-    googleReviews = googleReviews.reviews.map((item) => ({
+    let googleReviews = await googleApis.getReviews(req.query.google_place_id, lang);
+    googleReviews = get(googleReviews, 'reviews', []).map((item) => ({
       ...item,
       isGoogle: true,
       createdAt: moment.unix(item.time),
@@ -297,7 +299,7 @@ exports.getPlaceReview = async (req, res) => {
     let reviews = [...googleReviews, ...ourReviews];
     reviews = reviews.sort((a, b) => b.createdAt - a.createdAt);
     res.status(200).json({
-      message: 'Place review!',
+      message: 'Restaurants review!',
       data: reviews,
       count: reviews.length,
     });
