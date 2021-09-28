@@ -33,9 +33,9 @@ mongoose
 
 app.use('/api', Api);
 
-const server = http.createServer(app).listen(process.env.PORT || 8081, function () {
-  console.log('Http server listening on port', process.env.PORT || 8081);
-  rootLogger.info('Http server listening on port', process.env.PORT || 8081);
+const server = http.createServer(app).listen(process.env.PORT || 8082, function () {
+  console.log('Http server listening on port', process.env.PORT || 8082);
+  rootLogger.info('Http server listening on port', process.env.PORT || 8082);
 });
 app.use('/status', async (req, res) => {
   try {
