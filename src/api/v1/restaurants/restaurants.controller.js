@@ -244,12 +244,9 @@ exports.getRestaurantDetails = async (req, res) => {
 exports.createPlaceReview = async (req, res) => {
   try {
     logger.info('In Restaurant API - Validating [createRestaurantReview] restaurants');
-    const { error } = restaurantsValidation.validateCreateRestaurantReview.validate(
-      { ...req.body },
-      {
-        abortEarly: false,
-      },
-    );
+    const { error } = restaurantsValidation.validateCreateRestaurantReview.validate(req.body, {
+      abortEarly: false,
+    });
     if (error) {
       logger.info(`Validation error ${JSON.stringify(error.details)}`);
       return res.status(400).json({
@@ -258,8 +255,9 @@ exports.createPlaceReview = async (req, res) => {
       });
     }
     const { place, ...body } = req.body;
+    const { place_id: google_place_id } = place;
     const place_id = await restaurantUtil.getPlaceId(place);
-    const review = await PlaceReview.create({ ...body, place_id });
+    const review = await PlaceReview.create({ ...body, place_id, google_place_id });
     res.status(200).json({
       message: 'Restaurants review has been submitted!',
       data: review,

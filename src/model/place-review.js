@@ -20,6 +20,10 @@ const placeReviewSchema = new mongoose.Schema({
     require: true,
     ref: 'waiter-restaurants',
   },
+  google_place_id: {
+    type: String,
+    require: true,
+  },
 });
 
 placeReviewSchema.set('timestamps', true);
